@@ -1,0 +1,78 @@
+{
+ "main": {
+  "J": 60.1,
+  "M": 47.3,
+  "S": 39.3
+ },
+ "all_tasks_incl_thin": {
+  "J": 62.1,
+  "M": 50.3,
+  "S": 40.3
+ },
+ "usage_ge_0.02": {
+  "J": 59.3,
+  "M": 49.4,
+  "S": 39.3
+ },
+ "month_2026-04": {
+  "J": 59.8,
+  "M": 48.3,
+  "S": 40.2
+ },
+ "month_2026-05": {
+  "J": 60.4,
+  "M": 49.9,
+  "S": 38.8
+ },
+ "keyword_tagger": {
+  "J": 59.0,
+  "M": 51.9,
+  "S": 39.3
+ },
+ "keyword_tagger_agreement_pct": 66.2,
+ "usage_weighted_mean": {
+  "J": 61.7,
+  "M": 45.1,
+  "S": 44.2
+ },
+ "coverage_pct": {
+  "J": 58.6,
+  "M": 65.3,
+  "S": 29.0
+ },
+ "coverage_ge_0.01_pct": {
+  "J": 36.5,
+  "M": 36.1,
+  "S": 17.4
+ },
+ "perm_J_vs_M": {
+  "gap_pts": 12.8,
+  "p_one_sided": 0.0
+ },
+ "perm_J_vs_S": {
+  "gap_pts": 20.8,
+  "p_one_sided": 0.0004
+ },
+ "india_index_by_tier": {
+  "J": 1.15,
+  "M": 1.25,
+  "S": 1.17
+ },
+ "n_tasks": {
+  "J": 66,
+  "M": 52,
+  "S": 12
+ },
+ "roles_J_gt_S": "6 of 7",
+ "roles_J_gt_M": "10 of 12",
+ "edu_years_median": {
+  "J": 13.7,
+  "M": 13.9,
+  "S": 13.0
+ },
+ "autonomy_median": {
+  "J": 2.9,
+  "M": 2.9,
+  "S": 2.9
+ }
+}

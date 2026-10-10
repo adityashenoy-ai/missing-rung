@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Missing Rung</title>
+<meta name="description" content="Which entry-level tasks AI is taking over, from Anthropic Economic Index data mapped onto 12 career ladders.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+[hidden]{display:none!important}
+/* Layout: one 60rem column; the ladder (senior rung on top, junior at the foot) is the recurring device. */
+:root{
+  --bg:#f4f6f8; --surface:#ffffff; --fg:#141a22; --fg-2:#4a5463; --fg-3:#6f7a8a; --rule:#d9dee5; --track:#e6eaef;
+  --accent:#23408e; --accent-soft:#e3e9f7;
+  --broken:#b3261e; --cracking:#d9a21b; --holding:#14896a; --thin:#b6bdc8;
+  --display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12161c; --surface:#1a2028; --fg:#e8ecf1; --fg-2:#b2bbc7; --fg-3:#8a95a4; --rule:#2c3440; --track:#252d38;
+  --accent:#9db2ff; --accent-soft:#232d48;
+  --broken:#d24430; --cracking:#b88a22; --holding:#20a07f; --thin:#4a5361; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12161c; --surface:#1a2028; --fg:#e8ecf1; --fg-2:#b2bbc7; --fg-3:#8a95a4; --rule:#2c3440; --track:#252d38;
+  --accent:#9db2ff; --accent-soft:#232d48;
+  --broken:#d24430; --cracking:#b88a22; --holding:#20a07f; --thin:#4a5361; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:400 1rem/1.6 var(--body);margin:0}
+.wrap{max-width:60rem;margin:0 auto;padding-inline:clamp(16px,4vw,40px);padding-block:2.5rem 4rem}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.08}
+h1{font-size:clamp(2.6rem,7vw,4.6rem);font-weight:850;font-stretch:72%;letter-spacing:-.01em}
+h2{font-size:clamp(1.6rem,3.6vw,2.2rem);font-weight:750;font-stretch:80%}
+h3{font-size:1.15rem;font-weight:700;font-stretch:90%}
+p{margin:0;max-width:65ch}
+a{color:var(--accent);text-underline-offset:2px}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+.eyebrow{font:500 .75rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--fg-3)}
+.lede{font-size:1.15rem;color:var(--fg-2)}
+.muted{color:var(--fg-3)}
+.num{font-variant-numeric:tabular-nums}
+section{display:grid;gap:1.25rem;padding-block:2.75rem;border-top:1px solid var(--rule)}
+header{display:grid;gap:1.1rem;padding-block:1rem 2.25rem}
+.src{font:400 .75rem/1.4 var(--mono);color:var(--fg-3)}
+.src a{color:inherit}
+
+/* banner */
+.banner{display:grid;gap:.35rem;background:var(--accent-soft);border-radius:6px;padding:.9rem 1.1rem;font-size:.92rem}
+.banner strong{font-weight:600}
+
+/* hero ladder */
+.ladder{display:grid;gap:0;position:relative;padding-left:1.25rem}
+.ladder::before,.ladder::after{content:"";position:absolute;top:-.5rem;bottom:-.5rem;width:4px;background:var(--fg);border-radius:2px}
+.ladder::before{left:0}.ladder::after{right:0}
+.rung{display:grid;grid-template-columns:minmax(6.5rem,9rem) 1fr;align-items:center;gap:1rem;padding:1.05rem 1.25rem 1.05rem 0;border-bottom:4px solid var(--fg)}
+.rung:first-child{border-top:4px solid var(--fg)}
+.rung-label{display:grid;gap:.1rem}
+.rung-label b{font:800 1.35rem/1 var(--display);font-stretch:75%}
+.rung-label span{font-size:.78rem;color:var(--fg-3)}
+.meter{display:grid;gap:.3rem;min-width:0}
+.meter-track{position:relative;height:1.35rem;background:var(--track);border-radius:0 4px 4px 0}
+.meter-fill{position:absolute;inset:0 auto 0 0;border-radius:0 4px 4px 0}
+.meter-val{font:600 1.5rem/1 var(--display);font-stretch:85%}
+.tick{position:absolute;top:-.3rem;bottom:-.3rem;width:0;border-left:1.5px dashed var(--fg-3)}
+.tick span{position:absolute;top:-1.15rem;left:-1.1rem;font:400 .65rem/1 var(--mono);color:var(--fg-3);white-space:nowrap}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:2.5rem;align-items:start}
+.facts{display:grid;gap:1.1rem}
+.fact{display:grid;gap:.2rem;border-left:3px solid var(--rule);padding-left:.9rem}
+.fact b{font:800 2rem/1 var(--display);font-stretch:80%}
+.fact span{font-size:.92rem;color:var(--fg-2)}
+
+/* role picker */
+.chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{font:500 .9rem/1 var(--body);padding:.55rem .8rem;border-radius:999px;border:1px solid var(--rule);background:var(--surface);color:var(--fg);cursor:pointer;display:inline-flex;gap:.45rem;align-items:center}
+.chip:hover{border-color:var(--fg-3)}
+.chip[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.chip .n{font:500 .72rem/1 var(--mono);padding:.15rem .35rem;border-radius:3px;background:var(--broken);color:#fff}
+.chip .n.zero{background:var(--track);color:var(--fg-3)}
+.chip[aria-pressed="true"] .n.zero{background:var(--fg-2);color:var(--bg)}
+
+.role-head{display:grid;gap:.6rem}
+.verdict{font-size:1.15rem;max-width:60ch}
+.legend{display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;font-size:.82rem;color:var(--fg-2);align-items:center}
+.sw{display:inline-block;width:.85rem;height:.85rem;border-radius:2px;vertical-align:-2px;margin-right:.35rem}
+.hatch{background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.38) 0 2px,transparent 2px 6px)}
+.toggle{display:inline-flex;gap:.45rem;align-items:center;font-size:.85rem;color:var(--fg-2);cursor:pointer}
+
+/* task ladder */
+.tier{display:grid;gap:.25rem}
+.tier-head{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;padding-bottom:.4rem;border-bottom:3px solid var(--fg)}
+.tier-head h3 span{font:400 .8rem var(--mono);color:var(--fg-3);margin-left:.4rem}
+.task{border-bottom:1px solid var(--rule)}
+.task>button{all:unset;box-sizing:border-box;width:100%;display:grid;grid-template-columns:minmax(0,1fr) minmax(9rem,15rem);gap:1rem;align-items:center;padding:.65rem .25rem;cursor:pointer}
+.task>button:hover{background:var(--accent-soft)}
+.task>button:focus-visible{outline:2px solid var(--accent)}
+.task-text{font-size:.93rem;min-width:0}
+.task-text .tag{font:500 .68rem/1 var(--mono);text-transform:uppercase;letter-spacing:.06em;margin-right:.4rem;padding:.12rem .3rem;border-radius:3px;color:#fff;white-space:nowrap}
+.bar{display:grid;grid-template-columns:1fr 3.2rem;gap:.5rem;align-items:center}
+.bar-track{position:relative;height:.7rem;background:var(--track);border-radius:0 4px 4px 0}
+.bar-fill{position:absolute;inset:0 auto 0 0;border-radius:0 4px 4px 0}
+.bar-track .tick{top:-.2rem;bottom:-.2rem}
+.bar-val{font:500 .85rem/1 var(--mono);text-align:right}
+.detail{display:grid;gap:.9rem;padding:.4rem .25rem 1.2rem}
+.detail-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:.8rem}
+.kv{display:grid;gap:.15rem}
+.kv span{font:400 .72rem/1.3 var(--mono);color:var(--fg-3);text-transform:uppercase;letter-spacing:.05em}
+.kv b{font:600 1.05rem/1.2 var(--body)}
+.stack{display:flex;height:.8rem;border-radius:3px;overflow:hidden;gap:2px;background:var(--surface)}
+.stack i{display:block;height:100%}
+.nodata{font-size:.85rem;color:var(--fg-3);padding:.5rem .25rem}
+
+/* guidance */
+.tabs{display:flex;gap:.25rem;border-bottom:1px solid var(--rule)}
+.tab{all:unset;cursor:pointer;padding:.6rem .9rem;font:600 .95rem/1 var(--body);color:var(--fg-3);border-bottom:3px solid transparent;margin-bottom:-1px}
+.tab[aria-selected="true"]{color:var(--fg);border-color:var(--accent)}
+.tab:focus-visible{outline:2px solid var(--accent)}
+.panel{display:grid;gap:1rem;background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:1.25rem}
+.panel ol,.panel ul{margin:0;padding-left:1.2rem;display:grid;gap:.6rem;max-width:65ch}
+.editorial{font:500 .7rem/1 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--accent)}
+.climb{display:grid;gap:.4rem}
+.climb li{font-size:.93rem}
+
+/* overview dot plot */
+.dots{display:grid;gap:0}
+.dot-row{display:grid;grid-template-columns:minmax(7.5rem,12rem) minmax(0,1fr) 2.6rem;gap:1rem;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--rule)}
+.dot-row button{all:unset;cursor:pointer;font-size:.92rem;font-weight:500}
+.dot-row button:hover{text-decoration:underline}
+.dot-row button:focus-visible{outline:2px solid var(--accent)}
+.dot-track{position:relative;height:1.4rem}
+.dot-track::before{content:"";position:absolute;left:0;right:0;top:50%;border-top:1px solid var(--rule)}
+.dot-link{position:absolute;top:50%;height:2px;background:var(--fg-3);transform:translateY(-50%)}
+.mk{position:absolute;top:50%;width:.8rem;height:.8rem;transform:translate(-50%,-50%);border:2px solid var(--fg);background:var(--fg)}
+.mk.J{border-radius:50%}
+.mk.M{border-radius:50%;background:var(--bg)}
+.mk.S{border-radius:1px;background:var(--bg);width:.7rem;height:.7rem}
+.dot-axis{display:grid;grid-template-columns:minmax(7.5rem,12rem) minmax(0,1fr) 2.6rem;gap:1rem;font:400 .7rem var(--mono);color:var(--fg-3)}
+.dot-axis div{position:relative;height:1rem}
+.dot-axis div span{position:absolute;transform:translateX(-50%)}
+.broken-n{font:500 .8rem var(--mono);text-align:right}
+
+/* method */
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th,td{text-align:left;padding:.55rem .6rem;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font:500 .72rem/1.2 var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--fg-3)}
+td.num{font-family:var(--mono);white-space:nowrap}
+.scroll{overflow-x:auto}
+.pill{font:500 .7rem/1 var(--mono);padding:.2rem .4rem;border-radius:3px;white-space:nowrap}
+.pill.ok{background:color-mix(in srgb,var(--holding) 20%,transparent);color:var(--fg)}
+.pill.no{background:color-mix(in srgb,var(--broken) 20%,transparent);color:var(--fg)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:1.5rem}
+.cols ul{margin:0;padding-left:1.1rem;display:grid;gap:.5rem;font-size:.92rem}
+footer{border-top:1px solid var(--rule);padding-top:1.5rem;display:grid;gap:.5rem;font-size:.85rem;color:var(--fg-3)}
+
+/* tooltip */
+.tip{position:fixed;z-index:10;pointer-events:none;background:var(--fg);color:var(--bg);font:400 .78rem/1.4 var(--body);padding:.45rem .6rem;border-radius:4px;max-width:18rem}
+
+@media (max-width:640px){
+  .hero-grid{grid-template-columns:1fr}
+  .task>button{grid-template-columns:1fr;gap:.45rem}
+  .dot-row,.dot-axis{grid-template-columns:minmax(0,6.5rem) minmax(0,1fr) 2rem;gap:.6rem}
+  .rung{grid-template-columns:5.5rem 1fr}
+}
+@media (prefers-reduced-motion:no-preference){.meter-fill,.bar-fill{transition:width .5s ease}}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">AI and the career ladder · India edition · data: Apr–May 2026</div>
+  <h1>The Missing Rung</h1>
+  <p class="lede">AI isn't taking jobs evenly. In 12 early-career roles, the tasks juniors traditionally learn on are the ones people most often <em>hand over</em> to AI. The tasks seniors do are the ones people mostly work through <em>with</em> it.</p>
+  <div class="banner" role="note">
+    <strong>What this data is.</strong>
+    <span>How people use Claude, measured by Anthropic across millions of conversations and mapped to U.S. Department of Labor (O*NET) tasks. It shows where AI is doing the work in practice. It does not measure hiring, job losses, or the whole labour market.</span>
+  </div>
+</header>
+
+<section id="finding" aria-labelledby="h-finding">
+  <div class="eyebrow">The finding</div>
+  <h2 id="h-finding">The lower the rung, the more of it is handed over</h2>
+  <div class="hero-grid">
+    <div class="meter-wrap" style="display:grid;gap:1.4rem">
+      <div class="ladder" id="hero-ladder" aria-label="Median automation share by rung"></div>
+      <p class="src">Median share of Claude.ai conversations on a task where the user hands the whole task over ("automation") rather than working through it with Claude ("augmentation"). Tasks with at least 0.01% of usage. <a href="#method">Method</a></p>
+    </div>
+    <div class="facts" id="facts"></div>
+  </div>
+</section>
+
+<section id="roles" aria-labelledby="h-roles">
+  <div class="eyebrow">Pick a role</div>
+  <h2 id="h-roles">See your ladder, rung by rung</h2>
+  <div class="chips" id="chips" role="group" aria-label="Roles"></div>
+  <p class="src">Red count = junior rungs that are broken. Each role maps to the closest U.S. O*NET occupation(s), listed under the role.</p>
+  <div id="role" class="role" style="display:grid;gap:1.5rem"></div>
+</section>
+
+<section id="all" aria-labelledby="h-all">
+  <div class="eyebrow">All 12 roles</div>
+  <h2 id="h-all">Where the gap is widest</h2>
+  <div class="legend">
+    <span><i class="mk-l" style="display:inline-block;width:.75rem;height:.75rem;border-radius:50%;background:var(--fg);vertical-align:-1px;margin-right:.35rem"></i>Junior</span>
+    <span><i style="display:inline-block;width:.75rem;height:.75rem;border-radius:50%;border:2px solid var(--fg);vertical-align:-1px;margin-right:.35rem"></i>Mid</span>
+    <span><i style="display:inline-block;width:.65rem;height:.65rem;border:2px solid var(--fg);vertical-align:-1px;margin-right:.35rem"></i>Senior</span>
+    <span class="muted">Median automation share. Missing marker = too little data for that rung.</span>
+  </div>
+  <div class="dots" id="dots"></div>
+  <p class="src" id="dots-src"></p>
+</section>
+
+<section id="method" aria-labelledby="h-method">
+  <div class="eyebrow">How this was built</div>
+  <h2 id="h-method">Method, checks, and what could be wrong</h2>
+  <div class="cols">
+    <div style="display:grid;gap:.75rem">
+      <h3>Steps</h3>
+      <ul>
+        <li>Took every O*NET task in Anthropic's Economic Index release of 26 June 2026 (Apr–May 2026, global), averaging the two months where both are published.</li>
+        <li>Mapped 12 roles that early-career people in India apply for to the closest O*NET 31.0 occupations.</li>
+        <li>Tagged all <span id="m-ntasks"></span> tasks Junior, Mid or Senior from the task wording, <strong>before looking at any AI numbers</strong>. Tags and reasons are in <code>data/ladders.csv</code> for anyone to dispute.</li>
+        <li>Wrote the hypothesis down first: junior tasks show a higher automation share than senior tasks.</li>
+        <li>Status: <b>broken</b> ≥ 65% automation (roughly the top quarter of all tasks), <b>cracking</b> 50–65%, <b>holding</b> &lt; 50%. Tasks below 0.01% of usage are shown as thin data and left out of every headline number.</li>
+      </ul>
+    </div>
+    <div style="display:grid;gap:.75rem">
+      <h3>What could be wrong</h3>
+      <ul>
+        <li>Claude users aren't a random sample of workers, and people may bring Claude the tasks they find easiest to hand over.</li>
+        <li>Seniority tags are judgment calls. A simple keyword tagger agrees with them on <span id="m-agree"></span>% of tasks and gives the same pattern.</li>
+        <li>Senior tasks rarely appear in Claude usage (<span id="m-cov"></span>), so the junior vs senior gap rests on fewer tasks than junior vs mid.</li>
+        <li>O*NET describes U.S. occupations. Indian job titles bundle tasks differently.</li>
+        <li>A check set in advance did not confirm the tags: the dataset's estimate of years of education a task needs is <em>not</em> lower for junior tasks. That estimate measures schooling, not on-the-job experience, but it remains a limitation.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="scroll"><table id="checks"><thead><tr><th>Check</th><th>Junior</th><th>Mid</th><th>Senior</th><th>Result</th></tr></thead><tbody></tbody></table></div>
+  <p class="src" id="excluded"></p>
+</section>
+
+<footer>
+  <div><b>Sources.</b> <span id="sources"></span></div>
+  <div>Built by Aditya Shenoy as an open product case study: <a href="https://github.com/adityashenoy-ai/adityashenoy-ai.github.io/tree/main/missing-rung">code, data and product brief on GitHub</a>. Editorial guidance is the author's own judgment, built on the data but not part of it. Corrections welcome as GitHub issues.</div>
+</footer>
+</div>
+<div class="tip" id="tip" hidden></div>
+
+<script>
+(function(){
+const TIER={J:"Junior",M:"Mid",S:"Senior"}, TIER_SUB={J:"Execute defined work",M:"Own a piece, analyse, design",S:"Decide, direct, advise"};
+const STATUS={broken:"Broken",cracking:"Cracking",holding:"Holding",thin:"Thin data"};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pct=v=>v==null?"–":(Math.round(v))+"%";
+let DATA, current, showThin=false, tab="you";
+try{ showThin = localStorage.getItem("mr-thin")==="1"; }catch(e){}
+
+function color(s){return `var(--${s||"thin"})`}
+function ticks(){return `<i class="tick" style="left:50%"></i><i class="tick" style="left:65%"></i>`}
+
+function hero(){
+  const h=DATA.headline, m=h.median_by_tier, n=h.n_tasks;
+  $("#hero-ladder").innerHTML=["S","M","J"].map(t=>{
+    const v=m[t], s=v>=65?"broken":v>=50?"cracking":"holding";
+    return `<div class="rung"><div class="rung-label"><b>${TIER[t]}</b><span>${TIER_SUB[t]} · ${n[t]} tasks</span></div>
+      <div class="meter"><div class="meter-val num">${v.toFixed(0)}%</div>
+      <div class="meter-track"><i class="meter-fill" style="width:${v}%;background:${color(s)}"></i>
+      <i class="tick" style="left:50%"><span>50%</span></i><i class="tick" style="left:65%"><span>65% broken</span></i></div></div></div>`}).join("");
+  $("#facts").innerHTML=`
+    <div class="fact"><b class="num">${h.roles_J_gt_M}</b><span>roles where junior tasks are handed over more often than mid-level ones. Gap ${h.perm_J_vs_M.gap_pts} points, p&nbsp;&lt;&nbsp;0.001 in a within-role shuffle test.</span></div>
+    <div class="fact"><b class="num">${h.broken_junior_total}</b><span>junior tasks across the 12 roles are <em>broken rungs</em>: 65% or more of their Claude conversations hand the whole task over.</span></div>
+    <div class="fact"><b class="num">${Math.round(h.coverage_pct.S)}%</b><span>of senior tasks appear in Claude usage at all, against ${Math.round(h.coverage_pct.J)}% of junior tasks. Senior work barely shows up.</span></div>`;
+}
+
+function chips(){
+  $("#chips").innerHTML=DATA.roles.map(r=>`<button class="chip" data-r="${r.id}" aria-pressed="false">${esc(r.name)}<span class="n ${r.n_broken_junior?"":"zero"}" aria-label="${r.n_broken_junior} broken junior rungs">${r.n_broken_junior}</span></button>`).join("");
+  $("#chips").addEventListener("click",e=>{const b=e.target.closest(".chip"); if(b) select(b.dataset.r,true)});
+}
+
+function taskRow(t){
+  const s=t.status, has=t.automation_pct!=null;
+  const fill=has?`<i class="bar-fill ${s==="broken"?"hatch":""}" style="width:${t.automation_pct}%;background:${color(s)}"></i>`:"";
+  return `<div class="task" data-id="${t.task_id}"><button aria-expanded="false" data-tip="${has?esc(`${STATUS[s]} · ${pct(t.automation_pct)} handed over · ${pct(t.augmentation_pct)} worked through with AI`):"No Claude usage published for this task"}">
+    <span class="task-text"><span class="tag" style="background:${color(s)}">${has?STATUS[s]:"No data"}</span>${esc(t.task)}</span>
+    <span class="bar"><span class="bar-track">${fill}${ticks()}</span><span class="bar-val num">${has?pct(t.automation_pct):"–"}</span></span>
+  </button><div class="detail" hidden></div></div>`;
+}
+
+function detail(t){
+  if(t.automation_pct==null) return `<p class="nodata">Anthropic did not publish Claude usage for this task in Apr–May 2026, either because too few conversations matched it or because it is rarely brought to Claude. It's often in-person or relationship work.</p>`;
+  const pats=[["directive","Directive (hand over)","var(--broken)"],["feedback_loop","Feedback loop (hand over, fix errors)","var(--cracking)"],["task_iteration","Task iteration (refine together)","var(--holding)"],["validation","Validation (check my work)","var(--accent)"],["learning","Learning (explain it to me)","var(--fg-3)"]];
+  const stack=pats.map(([k,l,c])=>t[k+"_pct"]?`<i style="width:${t[k+"_pct"]}%;background:${c}" title="${l}: ${pct(t[k+"_pct"])}"></i>`:"").join("");
+  const india=t.india_usage_pct!=null&&t.usage_pct?(t.india_usage_pct/t.usage_pct):null;
+  return `<div class="detail-grid">
+    <div class="kv"><span>Handed over / with AI</span><b class="num">${pct(t.automation_pct)} / ${pct(t.augmentation_pct)}</b></div>
+    <div class="kv"><span>AI autonomy (1–5)</span><b class="num">${t.autonomy!=null?t.autonomy.toFixed(1):"–"}</b></div>
+    <div class="kv"><span>Time without AI → with AI</span><b class="num">${t.human_hours!=null?t.human_hours.toFixed(1)+" h":"–"} → ${t.with_ai_minutes!=null?Math.round(t.with_ai_minutes)+" min":"–"}</b></div>
+    <div class="kv"><span>Share of Claude.ai usage</span><b class="num">${t.usage_pct!=null?t.usage_pct.toFixed(2)+"%":"–"}</b></div>
+    <div class="kv"><span>India vs global share</span><b class="num">${india!=null?india.toFixed(1)+"×":"not published"}</b></div>
+    <div class="kv"><span>Built into apps (API share)</span><b class="num">${t.api_usage_pct!=null?t.api_usage_pct.toFixed(2)+"%":"not published"}</b></div>
+  </div>
+  <div style="display:grid;gap:.35rem"><div class="kv"><span>How people work on it with Claude</span></div><div class="stack">${stack}</div>
+  <div class="legend">${pats.map(([k,l,c])=>t[k+"_pct"]!=null?`<span><i class="sw" style="background:${c}"></i>${l} ${pct(t[k+"_pct"])}</span>`:"").join("")}</div></div>
+  <p class="src">O*NET ${t.onet_soc} ${esc(t.occupation)} · task ${t.task_id} (${t.task_type||""}) · tagged ${TIER[t.tier]} (${t.reason}) · ${t.months===1?"1 month":"Apr–May avg"} · Anthropic Economic Index 2026-06-26, CC-BY</p>`;
+}
+
+function select(id,scroll){
+  current=DATA.roles.find(r=>r.id===id)||DATA.roles[0];
+  document.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",c.dataset.r===current.id));
+  try{ if(scroll) history.replaceState(null,"","#"+current.id);}catch(e){}
+  renderRole();
+  if(scroll) $("#roles").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function renderRole(){
+  const r=current, g=r.guidance, byId=Object.fromEntries(r.tasks.map(t=>[t.task_id,t]));
+  const tiers=["S","M","J"].map(t=>{
+    let ts=r.tasks.filter(x=>x.tier===t);
+    const thin=ts.filter(x=>x.status==="thin"||x.automation_pct==null).length;
+    const vis=ts.filter(x=>showThin||(x.status&&x.status!=="thin")).sort((a,b)=>(b.automation_pct??-1)-(a.automation_pct??-1));
+    const med=r.median_by_tier[t];
+    return `<div class="tier"><div class="tier-head"><h3>${TIER[t]} rung<span>${ts.length} tasks</span></h3><span class="src">${med!=null?"median "+med.toFixed(0)+"% handed over":"too little data"}${!showThin&&thin?` · ${thin} thin/no-data hidden`:""}</span></div>
+      ${vis.length?vis.map(taskRow).join(""):`<p class="nodata">No ${TIER[t].toLowerCase()} task in this role has enough Claude usage to show.</p>`}</div>`}).join("");
+  const climb=g.climb.map(id=>byId[id]).filter(Boolean).map(t=>`<li><b>${pct(t.automation_pct)}</b> handed over · ${esc(t.task)}</li>`).join("");
+  $("#role").innerHTML=`
+    <div class="role-head"><h2 style="font-size:clamp(1.8rem,4.5vw,2.8rem)">${esc(r.name)}</h2>
+      <p class="verdict">${esc(g.verdict)}</p>
+      <p class="src">O*NET: ${r.occupations.map(esc).join(" + ")} · ${r.n_with_data} of ${r.n_tasks} tasks have enough data</p></div>
+    <div class="legend">${["broken","cracking","holding"].map(s=>`<span><i class="sw ${s==="broken"?"hatch":""}" style="background:${color(s)}"></i>${STATUS[s]}${s==="broken"?" ≥65%":s==="cracking"?" 50–65%":" <50%"}</span>`).join("")}
+      <label class="toggle"><input type="checkbox" id="thin" ${showThin?"checked":""}> Show thin-data tasks</label></div>
+    <div style="display:grid;gap:1.75rem">${tiers}</div>
+    <div style="display:grid;gap:0">
+      <div class="tabs" role="tablist"><button class="tab" role="tab" id="tab-you" aria-selected="${tab==="you"}" data-t="you">For you, starting out</button><button class="tab" role="tab" id="tab-team" aria-selected="${tab==="team"}" data-t="team">For your team</button></div>
+      <div class="panel" role="tabpanel">
+        <div class="editorial">Editorial · author's judgment, based on the rungs above</div>
+        ${tab==="you"?`
+          <div class="climb"><h3>Rungs to start climbing early</h3><p class="muted" style="font-size:.9rem">Mid and senior tasks people still mostly work through <em>with</em> AI. You can practise these now, with AI as a coach.</p><ul>${climb}</ul></div>
+          <div style="display:grid;gap:.6rem"><h3>90-day proof project: ${esc(g.project.title)}</h3><ol>${g.project.phases.map(p=>`<li>${esc(p)}</li>`).join("")}</ol></div>`
+        :`<div style="display:grid;gap:.6rem"><h3>Redesign the entry-level role</h3><ul>${g.team.map(p=>`<li>${esc(p)}</li>`).join("")}</ul></div>`}
+      </div></div>`;
+  $("#thin").addEventListener("change",e=>{showThin=e.target.checked; try{localStorage.setItem("mr-thin",showThin?"1":"0")}catch(_){} renderRole()});
+  document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{tab=b.dataset.t;renderRole();$("#tab-"+tab).focus()}));
+  document.querySelectorAll("#role .task>button").forEach(b=>b.addEventListener("click",()=>{
+    const d=b.nextElementSibling, open=b.getAttribute("aria-expanded")==="true";
+    if(!open&&!d.innerHTML) d.innerHTML=detail(byId[b.parentElement.dataset.id]);
+    d.hidden=open; b.setAttribute("aria-expanded",String(!open));
+  }));
+}
+
+function dots(){
+  const rows=[...DATA.roles].sort((a,b)=>((b.median_by_tier.J??0)-(b.median_by_tier.M??b.median_by_tier.J??0))-((a.median_by_tier.J??0)-(a.median_by_tier.M??a.median_by_tier.J??0)));
+  const axis=`<div class="dot-axis" aria-hidden="true"><span></span><div>${[0,25,50,75,100].map(v=>`<span style="left:${v}%;transform:translateX(${v===0?0:v===100?-100:-50}%)">${v}%</span>`).join("")}</div><span style="text-align:right">J broken</span></div>`;
+  $("#dots").innerHTML=axis+rows.map(r=>{
+    const m=r.median_by_tier, vals=["J","M","S"].filter(t=>m[t]!=null).map(t=>m[t]);
+    const lo=Math.min(...vals), hi=Math.max(...vals);
+    const marks=["S","M","J"].filter(t=>m[t]!=null).map(t=>`<i class="mk ${t}" style="left:${m[t]}%" data-tip="${TIER[t]}: ${m[t].toFixed(0)}% handed over"></i>`).join("");
+    return `<div class="dot-row"><button data-r="${r.id}">${esc(r.name)}</button><div class="dot-track"><i class="dot-link" style="left:${lo}%;width:${hi-lo}%"></i>${marks}</div><span class="broken-n num">${r.n_broken_junior}</span></div>`}).join("");
+  $("#dots").addEventListener("click",e=>{const b=e.target.closest("button[data-r]"); if(b) select(b.dataset.r,true)});
+  $("#dots-src").textContent="Sorted by the gap between the junior and mid rungs. Right-hand column = broken junior rungs. Financial analyst and digital marketer are the exceptions: no junior rung is broken yet.";
+}
+
+function method(){
+  const R=DATA.robustness, row=(name,o,res,ok)=>`<tr><td>${name}</td><td class="num">${o.J??"–"}%</td><td class="num">${o.M??"–"}%</td><td class="num">${o.S??"–"}%</td><td><span class="pill ${ok?"ok":"no"}">${res}</span></td></tr>`;
+  const e=R.edu_years_median;
+  $("#checks tbody").innerHTML=[
+    row("Headline: median automation share, tasks with ≥0.01% usage",R.main,"J > M > S",1),
+    row("April 2026 only",R["month_2026-04"],"Same order",1),
+    row("May 2026 only",R["month_2026-05"],"Same order",1),
+    row("Including thin-data tasks",R.all_tasks_incl_thin,"Same order",1),
+    row("Stricter: tasks with ≥0.02% usage",R["usage_ge_0.02"],"Same order",1),
+    row("Usage-weighted mean",R.usage_weighted_mean,"Same order",1),
+    row("Keyword tagger instead of my tags",R.keyword_tagger,"Same order",1),
+    `<tr><td>Set in advance: years of education the task needs (AEI estimate)</td><td class="num">${e.J} y</td><td class="num">${e.M} y</td><td class="num">${e.S} y</td><td><span class="pill no">Did not confirm tags</span></td></tr>`,
+  ].join("");
+  $("#m-ntasks").textContent=DATA.roles.reduce((a,r)=>a+r.n_tasks,0);
+  $("#m-agree").textContent=Math.round(R.keyword_tagger_agreement_pct);
+  $("#m-cov").textContent=`${Math.round(R.coverage_pct.S)}% of senior tasks vs ${Math.round(R.coverage_pct.J)}% of junior`;
+  $("#excluded").textContent="Left out for thin data: "+DATA.excluded.map(x=>`${x.name} (${x.reason.toLowerCase()})`).join("; ")+".";
+  const m=DATA.meta;
+  $("#sources").innerHTML=`<a href="${m.source_url}">${esc(m.source)}</a> · <a href="${m.report_url}">Anthropic Economic Index report, "Cadences" (Jun 2026)</a> · <a href="${m.onet_url}">${esc(m.onet)}</a>. Period: ${esc(m.period)}.`;
+}
+
+function tips(){
+  const tip=$("#tip");
+  document.addEventListener("mouseover",e=>{const el=e.target.closest("[data-tip]"); if(!el){tip.hidden=true;return} tip.textContent=el.dataset.tip; tip.hidden=false});
+  document.addEventListener("mousemove",e=>{if(!tip.hidden){tip.style.left=Math.min(e.clientX+14,innerWidth-tip.offsetWidth-8)+"px"; tip.style.top=(e.clientY+16)+"px"}});
+}
+
+fetch("site/data.json").then(r=>r.json()).then(d=>{
+  DATA=d; hero(); chips(); dots(); method(); tips();
+  const h=(location.hash||"").slice(1);
+  select(DATA.roles.some(r=>r.id===h)?h:"software-engineer",false);
+}).catch(()=>{$("#role").innerHTML='<p class="nodata">The data file didn\'t load. Refresh the page; if it persists, open the GitHub repo for the CSV.</p>'});
+})();
+</script>
+
+</body>
+</html>
